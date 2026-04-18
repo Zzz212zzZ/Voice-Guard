@@ -37,7 +37,8 @@ class VoiceCloner:
         self._source_se_path = os.path.join(ckpt_dir, "base_speakers", "ses", "en-newest.pth")
         self._output_dir = os.path.join(self.openvoice_root, "outputs_v2")
         self._processed_dir = os.path.join(self.openvoice_root, "processed")
-        self.default_reference = os.path.join(self.openvoice_root, "resources", "example_reference.mp3")
+        # Default demo voice for the live presentation
+        self.default_reference = os.path.join(self.openvoice_root, "resources", "demo_speaker0.mp3")
         self.sample_rate = 22050
 
         os.makedirs(self._output_dir, exist_ok=True)
