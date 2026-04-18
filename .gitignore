@@ -16,3 +16,17 @@ OpenVoice/processed/
 
 # Package metadata
 *.egg-info/
+
+# ASVspoof 2019 LA dataset (download separately, ~8 GB)
+data/
+
+# Slide build: npm deps + QA intermediates + LibreOffice output
+slides/node_modules/
+slides/qa/
+slides/*.pdf
+
+# Eval run logs
+scripts/output/asvspoof_eval/tier3.log
+
+# Claude Code local state + worktrees
+.claude/

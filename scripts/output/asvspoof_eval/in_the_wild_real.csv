@@ -1,0 +1,6 @@
+file,path,spoof_prob,bonafide_prob,verdict,confidence,inference_time_s
+demo_speaker0.mp3,/Users/jerryzeng/Documents/Voice Guard/.claude/worktrees/angry-wilson-c6077d/OpenVoice/resources/demo_speaker0.mp3,0.0004,0.9996,REAL,100.0,1.175
+demo_speaker1.mp3,/Users/jerryzeng/Documents/Voice Guard/.claude/worktrees/angry-wilson-c6077d/OpenVoice/resources/demo_speaker1.mp3,0.9914,0.0086,FAKE,99.1,2.211
+demo_speaker2.mp3,/Users/jerryzeng/Documents/Voice Guard/.claude/worktrees/angry-wilson-c6077d/OpenVoice/resources/demo_speaker2.mp3,0.9997,0.0003,FAKE,100.0,1.098
+example_reference.mp3,/Users/jerryzeng/Documents/Voice Guard/.claude/worktrees/angry-wilson-c6077d/OpenVoice/resources/example_reference.mp3,0.9946,0.0054,FAKE,99.5,1.591
+Reference audio.m4a,/Users/jerryzeng/Documents/Voice Guard/.claude/worktrees/angry-wilson-c6077d/OpenVoice/resources/Reference audio.m4a,0.9224,0.0776,FAKE,92.2,1.003

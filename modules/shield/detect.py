@@ -108,16 +108,56 @@ class DeepfakeDetector:
             "bonafide_prob": round(bonafide_prob, 4),
         }
 
+    def detect_with_attention(self, audio_path: str) -> dict:
+        """Detect with attention map extraction for explainability.
+
+        Returns the same verdict dict as detect(), plus an 'attention' key
+        containing numpy arrays of shape (freq, time) for visualization.
+        """
+        audio, _ = librosa.load(audio_path, sr=16000)
+        audio = self._pad_or_truncate(audio)
+
+        x = Tensor(audio).unsqueeze(0).to(self.device)
+
+        with torch.no_grad():
+            logits, att_maps = self._model(x, return_attention=True)
+
+        probs = torch.softmax(logits, dim=1).cpu().numpy()[0]
+        spoof_prob = float(probs[0])
+        bonafide_prob = float(probs[1])
+
+        if spoof_prob > 0.7:
+            verdict = "FAKE"
+        elif spoof_prob > 0.3:
+            verdict = "SUSPICIOUS"
+        else:
+            verdict = "REAL"
+
+        confidence = max(bonafide_prob, spoof_prob) * 100
+
+        return {
+            "verdict": verdict,
+            "confidence": round(confidence, 1),
+            "spoof_prob": round(spoof_prob, 4),
+            "bonafide_prob": round(bonafide_prob, 4),
+            "attention": {
+                "spectral": att_maps["spectral"][0].cpu().numpy(),
+                "temporal": att_maps["temporal"][0].cpu().numpy(),
+                "combined": att_maps["combined"][0].cpu().numpy(),
+            },
+        }
+
     def full_analyze(self, audio_path: str) -> dict:
         """Run W2V-AASIST for verdict + spectral/prosody for explainability.
 
         Verdict comes solely from W2V-AASIST. Spectral and prosody features
         are provided as raw values for the UI to display — no scoring.
+        Includes attention maps for heatmap visualization.
         """
         from modules.shield.spectral import analyze_spectral
         from modules.shield.prosody import analyze_prosody
 
-        w2v = self.detect(audio_path)
+        w2v = self.detect_with_attention(audio_path)
         spectral = analyze_spectral(audio_path)
         prosody = analyze_prosody(audio_path)
 
@@ -125,6 +165,7 @@ class DeepfakeDetector:
             "verdict": w2v["verdict"],
             "confidence": w2v["confidence"],
             "spoof_prob": w2v["spoof_prob"],
+            "attention": w2v["attention"],
             "spectral": spectral,
             "prosody": prosody,
         }

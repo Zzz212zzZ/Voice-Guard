@@ -19,6 +19,41 @@ def _plot_spectrogram(audio_path):
     return fig
 
 
+def _plot_attention_heatmap(audio_path, attention_combined):
+    """Overlay AASIST attention on mel spectrogram to show where the model focuses."""
+    from scipy.ndimage import zoom
+
+    y, sr = librosa.load(audio_path, sr=None)
+    S = librosa.feature.melspectrogram(y=y, sr=sr, n_mels=128)
+    S_dB = librosa.power_to_db(S, ref=np.max)
+
+    fig, ax = plt.subplots(figsize=(5, 3))
+    # Base spectrogram
+    librosa.display.specshow(S_dB, sr=sr, x_axis="time", y_axis="mel", ax=ax, alpha=0.7)
+
+    # Resize attention map to match spectrogram dimensions
+    att = attention_combined
+    # Normalize to [0, 1]
+    att = att - att.min()
+    if att.max() > 0:
+        att = att / att.max()
+
+    # Resize attention to spectrogram shape (n_mels, time_frames)
+    zoom_factors = (S_dB.shape[0] / att.shape[0], S_dB.shape[1] / att.shape[1])
+    att_resized = zoom(att, zoom_factors, order=1)
+
+    # Overlay attention as semi-transparent heatmap
+    extent = [0, S_dB.shape[1], 0, S_dB.shape[0]]
+    im = ax.imshow(
+        att_resized, aspect="auto", origin="lower", extent=extent,
+        cmap="hot", alpha=0.5, interpolation="bilinear",
+    )
+    ax.set_title("Model Attention Heatmap")
+    fig.colorbar(im, ax=ax, label="Attention Intensity")
+    fig.tight_layout()
+    return fig
+
+
 def _plot_pitch_contour(f0, voiced_flag, sr, hop_length):
     times = librosa.frames_to_time(np.arange(len(f0)), sr=sr, hop_length=hop_length)
     fig, ax = plt.subplots(figsize=(5, 3))
@@ -143,13 +178,15 @@ def build_shield_tab(detector: DeepfakeDetector):
     gr.Markdown("### Visualizations")
     with gr.Row():
         spectrogram_plot = gr.Plot(label="Spectrogram")
+        attention_plot = gr.Plot(label="Attention Heatmap")
+    with gr.Row():
         pitch_plot = gr.Plot(label="Pitch Contour")
         energy_plot = gr.Plot(label="Energy")
 
     def on_analyze(audio_path):
         if not audio_path:
             empty = "*Please upload an audio file first.*"
-            return empty, None, None, None, "", "", None, None, None
+            return empty, None, None, None, "", "", None, None, None, None
 
         try:
             result = detector.full_analyze(audio_path)
@@ -194,6 +231,9 @@ def build_shield_tab(detector: DeepfakeDetector):
 
             # Time-domain plots
             spec_fig = _plot_spectrogram(audio_path)
+            att_fig = _plot_attention_heatmap(
+                audio_path, result["attention"]["combined"],
+            )
             pd = result["prosody"]["plot_data"]
             pitch_fig = _plot_pitch_contour(
                 pd["f0"], pd["voiced_flag"], pd["sr"], pd["hop_length"],
@@ -205,13 +245,13 @@ def build_shield_tab(detector: DeepfakeDetector):
             return (verdict_html, result["spoof_prob"],
                     vq_fig, sp_fig,
                     vq_table, sp_table,
-                    spec_fig, pitch_fig, energy_fig)
+                    spec_fig, att_fig, pitch_fig, energy_fig)
 
         except Exception as e:
             import traceback
             traceback.print_exc()
             err = f"### Error: {e}"
-            return err, None, None, None, "", "", None, None, None
+            return err, None, None, None, "", "", None, None, None, None
 
     analyze_button.click(
         fn=on_analyze,
@@ -220,7 +260,7 @@ def build_shield_tab(detector: DeepfakeDetector):
             verdict_md, spoof_prob_num,
             voice_quality_plot, spectral_plot,
             voice_quality_md, spectral_md,
-            spectrogram_plot, pitch_plot, energy_plot,
+            spectrogram_plot, attention_plot, pitch_plot, energy_plot,
         ],
     )
 

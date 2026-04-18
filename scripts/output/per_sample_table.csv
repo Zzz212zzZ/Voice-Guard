@@ -1,0 +1,16 @@
+file,label,verdict,spoof_prob,confidence,shimmer,jitter,f0_cv,energy_cv,spectral_centroid
+demo_speaker0.mp3,Real,REAL,0.0004,100.0,0.212686,0.02942,0.2033,0.8303,2162.1
+demo_speaker2.mp3,Real,FAKE,0.9997,100.0,0.212589,0.027235,0.1658,1.1533,1885.2
+my_reference_audio.m4a,Real,FAKE,0.9224,92.2,0.141876,0.022279,0.1214,0.8816,2146.8
+cloned_output.wav,Fake,FAKE,0.9996,100.0,0.302125,0.024422,0.104,0.6623,2524.8
+output_v2_en-au.wav,Fake,FAKE,0.9997,100.0,0.410852,0.045853,0.1602,0.7784,2098.7
+output_v2_en-br.wav,Fake,FAKE,0.9997,100.0,0.426745,0.046876,0.17,0.7831,2825.7
+output_v2_en-default.wav,Fake,FAKE,0.9998,100.0,0.417926,0.026764,0.0798,0.646,2196.8
+output_v2_en-india.wav,Fake,FAKE,0.9997,100.0,0.396324,0.033565,0.1461,0.7144,1955.9
+output_v2_en-newest.wav,Fake,FAKE,0.9998,100.0,0.274286,0.039703,0.1376,0.7791,2234.1
+output_v2_en-us.wav,Fake,REAL,0.0159,98.4,0.404421,0.029102,0.2473,0.8618,2059.2
+output_v2_es.wav,Fake,FAKE,0.9997,100.0,0.492607,0.033291,0.0861,0.621,2629.4
+output_v2_fr.wav,Fake,FAKE,0.9998,100.0,0.392496,0.035768,0.0765,0.5446,2556.1
+output_v2_jp.wav,Fake,FAKE,0.9997,100.0,0.404908,0.025552,0.0932,0.688,2629.9
+output_v2_zh.wav,Fake,FAKE,0.9996,100.0,0.429636,0.032113,0.0887,0.7639,2567.2
+tmp.wav,Fake,FAKE,0.9995,99.9,0.183008,0.026092,0.1374,0.7186,3220.9

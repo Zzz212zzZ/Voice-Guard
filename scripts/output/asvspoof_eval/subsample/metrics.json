@@ -1,0 +1,77 @@
+{
+  "n": 2800,
+  "n_bonafide": 200,
+  "n_spoof": 2600,
+  "eer_pct": 0.0,
+  "eer_threshold": 0.0004,
+  "accuracy_pct": 99.67857142857143,
+  "fp_rate_pct": 0.0,
+  "fn_rate_pct": 0.34615384615384615,
+  "per_attack": {
+    "A07": {
+      "n": 200,
+      "correct": 200,
+      "acc_pct": 100.0
+    },
+    "A08": {
+      "n": 200,
+      "correct": 200,
+      "acc_pct": 100.0
+    },
+    "A09": {
+      "n": 200,
+      "correct": 200,
+      "acc_pct": 100.0
+    },
+    "A10": {
+      "n": 200,
+      "correct": 195,
+      "acc_pct": 97.5
+    },
+    "A11": {
+      "n": 200,
+      "correct": 198,
+      "acc_pct": 99.0
+    },
+    "A12": {
+      "n": 200,
+      "correct": 200,
+      "acc_pct": 100.0
+    },
+    "A13": {
+      "n": 200,
+      "correct": 200,
+      "acc_pct": 100.0
+    },
+    "A14": {
+      "n": 200,
+      "correct": 200,
+      "acc_pct": 100.0
+    },
+    "A15": {
+      "n": 200,
+      "correct": 200,
+      "acc_pct": 100.0
+    },
+    "A16": {
+      "n": 200,
+      "correct": 200,
+      "acc_pct": 100.0
+    },
+    "A17": {
+      "n": 200,
+      "correct": 200,
+      "acc_pct": 100.0
+    },
+    "A18": {
+      "n": 200,
+      "correct": 198,
+      "acc_pct": 99.0
+    },
+    "A19": {
+      "n": 200,
+      "correct": 200,
+      "acc_pct": 100.0
+    }
+  }
+}
