@@ -60,7 +60,8 @@ def build_attack_tab(cloner: VoiceCloner):
                 minimum=0.5, maximum=2.0, value=1.0, step=0.1,
                 label="Speed",
             )
-            clone_button = gr.Button("Clone & Speak", variant="primary")
+            clone_button = gr.Button("Clone & Speak", variant="primary",
+                                      elem_id="vg-btn-clone")
 
         with gr.Column(scale=1):
             status_text = gr.Textbox(label="Status", interactive=False)
@@ -79,7 +80,8 @@ def build_attack_tab(cloner: VoiceCloner):
             clone_waveform = gr.Plot(label="Waveform")
             clone_spectrogram = gr.Plot(label="Spectrogram")
 
-    send_to_shield_btn = gr.Button("Send to Shield →", variant="secondary")
+    send_to_shield_btn = gr.Button("Send to Shield", variant="secondary",
+                                    elem_id="vg-btn-send-shield")
 
     def on_clone(text, ref_audio, speed):
         try:
