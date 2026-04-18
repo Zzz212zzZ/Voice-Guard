@@ -17,13 +17,6 @@ from modules.shield.detect import DeepfakeDetector
 from modules.shield.ui import build_shield_tab
 
 
-# Minimal polish — Soft theme + small CSS tweaks. Nothing heavy.
-VG_CSS = """
-.gradio-container { max-width: 1280px !important; }
-footer { display: none !important; }
-"""
-
-
 def main():
     parser = argparse.ArgumentParser(description="VoiceGuard")
     parser.add_argument("--share", action="store_true", help="Create a public Gradio link")
@@ -42,7 +35,7 @@ def main():
             device=args.device,
         )
 
-    with gr.Blocks(title="VoiceGuard", theme=gr.themes.Soft(), css=VG_CSS) as app:
+    with gr.Blocks(title="VoiceGuard") as app:
         gr.Markdown("# VoiceGuard: Voice Cloning Attack & Detection")
 
         with gr.Tab("Attack"):
@@ -51,6 +44,7 @@ def main():
         with gr.Tab("Shield"):
             if detector:
                 shield_input = build_shield_tab(detector)
+                # Wire "Send to Shield" button
                 send_btn.click(
                     fn=lambda x: x,
                     inputs=[attack_output],
